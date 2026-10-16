@@ -1,0 +1,1 @@
+La base se crea y actualiza con migraciones de Entity Framework Core en `src/OVI.Datos/Migraciones`. `01_crear_base.sql` es auxiliar; evitar ejecutar ambos métodos de creación sobre una base ya migrada.

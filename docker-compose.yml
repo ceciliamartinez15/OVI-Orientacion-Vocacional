@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:?Configura MSSQL_SA_PASSWORD en .env}
+      MSSQL_PID: Express
+    volumes:
+      - ovi_sql_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/1433' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    restart: unless-stopped
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__OVIConnection: "Server=db,1433;Database=OrientacionVocacionalDB;User Id=sa;Password=${MSSQL_SA_PASSWORD};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
+      OVI_APPLY_MIGRATIONS: "true"
+      IA__ApiKey: ${IA_API_KEY:-}
+      IA__Endpoint: ${IA_ENDPOINT:-}
+      IA__Model: ${IA_MODEL:-}
+      OVI_ADMIN_EMAIL: ${OVI_ADMIN_EMAIL:-}
+      OVI_ADMIN_PASSWORD: ${OVI_ADMIN_PASSWORD:-}
+    restart: unless-stopped
+volumes:
+  ovi_sql_data:

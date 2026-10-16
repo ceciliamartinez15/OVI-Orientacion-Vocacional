@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/OVI.Modelos/OVI.Modelos.csproj" />
+  <Project Path="src/OVI.Datos/OVI.Datos.csproj" />
+  <Project Path="src/OVI.Logica/OVI.Logica.csproj" />
+  <Project Path="src/OVI.Presentacion/OVI.Presentacion.csproj" />
+</Solution>
