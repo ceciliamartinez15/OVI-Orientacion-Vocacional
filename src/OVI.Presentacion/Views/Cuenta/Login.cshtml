@@ -1,3 +1,37 @@
 @model OVI.Presentacion.Models.LoginVM
-@{ViewData["Title"]="Iniciar sesión";}
-<h1>Iniciar sesión</h1><form method="post" class="col-lg-5"><div asp-validation-summary="All" class="text-danger"></div><input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl"/><div class="mb-3"><label asp-for="Correo" class="form-label"></label><input asp-for="Correo" class="form-control" type="email" required/></div><div class="mb-3"><label asp-for="Contrasena" class="form-label"></label><input asp-for="Contrasena" type="password" class="form-control" required/></div><button class="btn btn-primary">Entrar</button> <a asp-action="Registro">Crear cuenta</a></form>
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<h1>Iniciar sesión</h1>
+
+<form method="post" class="col-lg-5">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input type="hidden"
+           name="returnUrl"
+           value="@ViewBag.ReturnUrl" />
+
+    <div class="mb-3">
+        <label asp-for="Correo" class="form-label"></label>
+        <input asp-for="Correo"
+               class="form-control"
+               type="email"
+               required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Contrasena" class="form-label"></label>
+        <input asp-for="Contrasena"
+               type="password"
+               class="form-control"
+               required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Entrar
+    </button>
+
+    <a asp-action="Registro">Crear cuenta</a>
+</form>

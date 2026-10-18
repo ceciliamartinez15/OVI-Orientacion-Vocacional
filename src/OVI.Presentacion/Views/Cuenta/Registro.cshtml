@@ -1,5 +1,51 @@
 @model OVI.Presentacion.Models.RegistroVM
-@{ViewData["Title"]="Registro";}
-<h1>Crear cuenta de estudiante</h1><form method="post" class="col-lg-6"><div asp-validation-summary="All" class="text-danger"></div>
-@foreach(var campo in new[]{"Nombre","Apellido","Correo","Contrasena","ConfirmarContrasena"}){<div class="mb-3"><label class="form-label" for="@campo">@campo</label><input class="form-control" id="@campo" name="@campo" type="@(campo.Contains("Contrasena")?"password":campo=="Correo"?"email":"text")" required maxlength="150" /></div>}
-<button class="btn btn-primary">Registrarme</button> <a asp-action="Login">Ya tengo cuenta</a></form>
+
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h1>Crear cuenta de estudiante</h1>
+
+<form method="post" class="col-lg-6">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Apellido" class="form-label"></label>
+        <input asp-for="Apellido" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Correo" class="form-label"></label>
+        <input asp-for="Correo"
+               type="email"
+               class="form-control"
+               required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Contrasena" class="form-label"></label>
+        <input asp-for="Contrasena"
+               type="password"
+               class="form-control"
+               required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ConfirmarContrasena" class="form-label"></label>
+        <input asp-for="ConfirmarContrasena"
+               type="password"
+               class="form-control"
+               required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Registrarme
+    </button>
+
+    <a asp-action="Login">Ya tengo cuenta</a>
+</form>
