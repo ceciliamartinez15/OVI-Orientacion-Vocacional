@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Inicio";
+    var sesion = User.Identity?.IsAuthenticated == true;
+    var gestion = User.IsInRole("Admin") || User.IsInRole("Orientador");
+}
+<section class="hero mb-5">
+    <div class="hero-content">
+        <span class="eyebrow">Descubre lo que te mueve</span>
+        <h1>Tu futuro empieza <span>conociéndote.</span></h1>
+        <p class="hero-lead">Explora tus intereses, descubre tus fortalezas y encuentra carreras que conecten contigo mediante el modelo RIASEC.</p>
+        <div class="d-flex flex-wrap gap-3">
+            @if (sesion)
+            {<a class="btn btn-primary btn-lg" asp-controller="Test" asp-action="Index">Realizar mi test</a>}
+            else
+            {<a class="btn btn-primary btn-lg" asp-controller="Cuenta" asp-action="Registro">Empezar gratis</a>}
+        </div>
+        <p class="hero-note">Test guiado, resultados personales y recomendaciones orientativas.</p>
+    </div>
+    <div class="hero-visual"><img src="~/img/robot-saludando.png" alt="Saviox, tu asesor vocacional, te saluda" /></div>
+</section>
+@if (sesion && gestion)
+{
+    <div class="section-heading"><div><span class="section-kicker">Panel de gestión</span><h2>Resumen del sistema</h2></div><a asp-controller="Dashboard" asp-action="Index">Ver estadísticas</a></div>
+    <div class="row g-3 mb-5">
+        <div class="col-md-6"><div class="metric-card"><span>Estudiantes activos</span><strong>@ViewBag.Estudiantes</strong><small>Usuarios con acceso</small></div></div>
+        <div class="col-md-6"><div class="metric-card"><span>Evaluaciones finalizadas</span><strong>@ViewBag.Evaluaciones</strong><small>Tests completados</small></div></div>
+    </div>
+}
+else if (sesion)
+{
+    <div class="section-heading"><div><span class="section-kicker">Mi espacio</span><h2>Mi orientación vocacional</h2></div><a asp-controller="Test" asp-action="Historial">Mi historial</a></div>
+    <div class="row g-3 mb-5">
+        <div class="col-md-6"><div class="metric-card"><span>Mis evaluaciones finalizadas</span><strong>@ViewBag.MisEvaluaciones</strong><small>Tu progreso personal</small></div></div>
+        <div class="col-md-6"><div class="metric-card"><span>Mi último perfil RIASEC</span><div class="profile-value">@(ViewBag.UltimoPerfil ?? "Aún no has realizado el test")</div>@if (ViewBag.UltimoResultadoId != null){<a asp-controller="Test" asp-action="Resultado" asp-route-id="@ViewBag.UltimoResultadoId">Ver mis recomendaciones</a>}</div></div>
+    </div>
+}
+<div class="section-heading"><div><span class="section-kicker">A tu ritmo</span><h2>Todo lo que necesitas para explorar</h2></div></div>
+<div class="row g-4">
+    <div class="col-md-6"><article class="feature-card"><span class="feature-icon">◎</span><h3>Test de intereses</h3><p>Responde afirmaciones sencillas y descubre tus áreas RIASEC más destacadas.</p><a asp-controller="Test" asp-action="Index">Hacer el test</a></article></div>
+    <div class="col-md-6"><article class="feature-card"><span class="feature-icon">✧</span><h3>Asistente vocacional</h3><p>Resuelve dudas sobre tus opciones y conoce nuevas posibilidades.</p><a asp-controller="Chatbot" asp-action="Contextual">Consultar asistente</a></article></div>
+</div>

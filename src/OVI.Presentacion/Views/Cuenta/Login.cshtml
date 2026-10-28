@@ -1,0 +1,27 @@
+@model OVI.Presentacion.Models.LoginVM
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="auth">
+    <div>
+        <h1>Bienvenido a <span>VocalO</span></h1>
+        <p class="mb-4">Inicia sesión para continuar con tu orientación vocacional.</p>
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+            <div class="mb-3">
+                <label asp-for="Correo" class="form-label"></label>
+                <input asp-for="Correo" class="form-control" type="email" required />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Contrasena" class="form-label"></label>
+                <input asp-for="Contrasena" type="password" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+            <p class="auth-alt mb-0">¿Aún no tienes cuenta? <a asp-action="Registro">Crear cuenta</a></p>
+        </form>
+    </div>
+    <div class="auth-art" aria-hidden="true"><img src="~/img/robot-saludando.png" alt="" /></div>
+</div>

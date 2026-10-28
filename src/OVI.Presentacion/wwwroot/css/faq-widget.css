@@ -1,0 +1,98 @@
+/* Burbuja flotante de Saviox con el módulo de preguntas frecuentes (todas las pantallas). */
+.fw { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 1050; font-family: var(--font-cuerpo, 'Roboto', sans-serif); }
+
+/* ---------- Botón flotante ---------- */
+.fw-boton {
+    position: relative; display: block; width: 66px; height: 66px; padding: 0; margin-left: auto;
+    border-radius: 50%; border: 3px solid var(--sand, #F0DCBD); background: var(--dark, #6B6056);
+    box-shadow: 0 6px 20px rgba(74, 66, 59, .35); cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+.fw-boton:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 10px 24px rgba(74, 66, 59, .4); }
+.fw-boton:focus-visible { outline: 3px solid var(--ink, #4A423B); outline-offset: 3px; }
+.fw-boton img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #fff; display: block; }
+.fw-boton-x {
+    position: absolute; inset: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    background: var(--dark, #6B6056); color: var(--ivory, #FFF2E1); font-size: 2rem; line-height: 1;
+    opacity: 0; transform: rotate(-90deg); transition: opacity .18s ease, transform .18s ease;
+}
+.fw-abierto .fw-boton-x { opacity: 1; transform: none; }
+
+/* Etiqueta al pasar el mouse (solo con el panel cerrado) */
+.fw-etiqueta {
+    position: absolute; right: 76px; top: 50%; transform: translateY(-50%) translateX(6px);
+    background: var(--dark, #6B6056); color: var(--ivory, #FFF2E1); font-size: .82rem; font-weight: 500;
+    padding: 6px 12px; border-radius: 999px; white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity .15s ease, transform .15s ease;
+}
+@media (hover: hover) {
+    .fw:not(.fw-abierto) .fw-boton:hover .fw-etiqueta,
+    .fw:not(.fw-abierto) .fw-boton:focus-visible .fw-etiqueta { opacity: 1; transform: translateY(-50%); }
+}
+
+/* ---------- Panel ---------- */
+.fw-panel {
+    position: absolute; right: 0; bottom: 82px; width: 370px; max-width: calc(100vw - 40px);
+    height: min(560px, calc(100vh - 130px)); display: flex; flex-direction: column;
+    background: var(--surface, #FFFBF4); border: 1px solid var(--line, #E4D3BA); border-radius: 18px;
+    box-shadow: 0 14px 40px rgba(74, 66, 59, .28); overflow: hidden;
+    transform-origin: bottom right; transform: translateY(12px) scale(.96); opacity: 0; visibility: hidden;
+    transition: transform .2s ease, opacity .2s ease, visibility 0s linear .2s;
+}
+.fw-abierto .fw-panel { transform: none; opacity: 1; visibility: visible; transition: transform .2s ease, opacity .2s ease, visibility 0s; }
+
+.fw-head { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--dark, #6B6056); color: var(--ivory, #FFF2E1); }
+.fw-head-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #fff; border: 2px solid var(--sand, #F0DCBD); flex-shrink: 0; }
+.fw-head-texto { flex: 1; min-width: 0; }
+.fw-titulo { margin: 0; font-family: var(--font-titulo, 'Raleway', sans-serif); font-weight: 900; font-size: 1rem; color: var(--ivory, #FFF2E1); line-height: 1.2; }
+.fw-sub { margin: 0; font-size: .78rem; color: var(--sand, #F0DCBD); }
+.fw-cerrar { border: 0; background: transparent; color: var(--ivory, #FFF2E1); font-size: 1.7rem; line-height: 1; padding: 2px 8px; border-radius: 8px; cursor: pointer; }
+.fw-cerrar:hover { background: rgba(255, 255, 255, .15); }
+.fw-cerrar:focus-visible { outline: 3px solid var(--sand, #F0DCBD); outline-offset: 1px; }
+
+.fw-mensajes { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
+
+.fw-fila { display: flex; max-width: 88%; }
+.fw-fila-bot { align-self: flex-start; }
+.fw-fila-usuario { align-self: flex-end; }
+.fw-burbuja { padding: 10px 14px; font-size: .9rem; line-height: 1.45; }
+.fw-burbuja p { margin: 0 0 6px; }
+.fw-burbuja p:last-child { margin-bottom: 0; }
+.fw-burbuja ul { margin: 4px 0 6px; padding-left: 18px; }
+.fw-burbuja-bot { background: var(--dark, #6B6056); color: #fff; border-radius: 16px 16px 16px 4px; }
+.fw-burbuja-bot strong { color: var(--ivory, #FFF2E1); }
+.fw-burbuja-usuario { background: #fff; color: var(--ink, #4A423B); border: 2px solid var(--brown, #A79277); border-radius: 16px 16px 4px 16px; }
+.fw-escribiendo { font-style: italic; opacity: .75; }
+
+/* Opciones (preguntas frecuentes a escoger) */
+.fw-opciones { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
+.fw-opciones-titulo { margin: 4px 0 0; font-size: .78rem; font-weight: 700; color: #7d7064; text-transform: uppercase; letter-spacing: .04em; }
+.fw-opcion {
+    text-align: left; width: 100%; padding: 9px 14px; font: inherit; font-size: .86rem; color: var(--ink, #4A423B);
+    background: #fff; border: 1px solid var(--brown, #A79277); border-radius: 12px; cursor: pointer;
+    transition: background .12s ease, border-color .12s ease;
+}
+.fw-opcion:hover { background: var(--sand, #F0DCBD); }
+.fw-opcion:focus-visible { outline: 3px solid var(--dark, #6B6056); outline-offset: 2px; }
+.fw-opcion[disabled] { opacity: .55; cursor: progress; }
+
+/* Entrada libre */
+.fw-form { margin: 0; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line, #E4D3BA); background: #fff; }
+.fw-input { flex: 1; min-width: 0; border: 0; background: #f4efe8; border-radius: 20px; padding: 9px 14px; font-size: .88rem; color: var(--ink, #4A423B); outline: none; }
+.fw-input:focus { box-shadow: 0 0 0 2px var(--brown, #A79277); }
+.fw-enviar { width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--dark, #6B6056); color: #fff; cursor: pointer; flex-shrink: 0; font-size: .95rem; }
+.fw-enviar:hover { background: var(--ink, #4A423B); }
+.fw-enviar:focus-visible { outline: 3px solid var(--ink, #4A423B); outline-offset: 2px; }
+.fw-aviso { margin: 0; padding: 0 14px 10px; background: #fff; font-size: .72rem; text-align: center; color: #7d7064; }
+
+/* Móvil: el panel ocupa casi todo el ancho */
+@media (max-width: 540px) {
+    .fw { right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+    .fw-boton { width: 58px; height: 58px; }
+    .fw-panel { right: -2px; bottom: 72px; width: calc(100vw - 24px); max-width: none; height: min(78vh, calc(100vh - 110px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fw *, .fw-panel { transition: none !important; }
+    .fw-mensajes { scroll-behavior: auto; }
+}

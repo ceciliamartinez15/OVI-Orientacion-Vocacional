@@ -1,0 +1,79 @@
+@model List<PreguntaRIASEC>
+@{
+    ViewData["Title"] = "Test RIASEC";
+    var etiquetas = new[] { "Nada", "Poco", "Algo", "Mucho", "Muchísimo" };
+}
+<div id="intro" class="intro-robot mb-4">
+    <h1>Descubre, conversa y elige</h1>
+    <img src="~/img/robot-info.png" alt="" />
+    <div class="intro-texto">
+        <p>Este test explora tus intereses prácticos, científicos, artísticos, sociales, emprendedores y de organización. Responde con sinceridad: indica cuánto te identifica cada afirmación, de 1 (nada) a 5 (muchísimo).</p>
+        <button id="btnIniciar" type="button" class="btn btn-primary btn-lg d-none">Iniciar el test</button>
+    </div>
+</div>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+}
+<form method="post" id="formTest">
+    <div class="progress mb-4" role="progressbar" aria-label="Progreso del test" aria-valuenow="0" aria-valuemin="0" aria-valuemax="@Model.Count">
+        <div class="progress-bar" id="barra" style="width:0%"></div>
+    </div>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <section class="paso mb-3" data-paso="@i">
+            <p class="paso-id">Pregunta @(i + 1) de @Model.Count</p>
+            <h2>@Model[i].Enunciado</h2>
+            <div class="escala" role="radiogroup" aria-label="Pregunta @(i + 1)">
+                @for (int v = 1; v <= 5; v++)
+                {
+                    <div>
+                        <input type="radio" id="r@(Model[i].IdPregunta)_@v" name="respuestas[@Model[i].IdPregunta]" value="@v" />
+                        <label for="r@(Model[i].IdPregunta)_@v"><b>@v</b><small>@etiquetas[v - 1]</small></label>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+    <div class="test-nav">
+        <button type="button" id="btnAtras" class="btn btn-outline-primary d-none">Anterior</button>
+        <button type="button" id="btnSig" class="btn btn-primary d-none ms-auto">Siguiente</button>
+        <button type="submit" id="btnFin" class="btn btn-primary btn-lg ms-auto">Calcular mi perfil</button>
+    </div>
+    <p id="aviso" class="text-danger mt-2 mb-0" role="alert" hidden>Elige una opción para continuar.</p>
+</form>
+@section Scripts {
+<script>
+(function () {
+    var pasos = Array.prototype.slice.call(document.querySelectorAll('.paso'));
+    var barra = document.getElementById('barra'), aviso = document.getElementById('aviso');
+    var btnAtras = document.getElementById('btnAtras'), btnSig = document.getElementById('btnSig'), btnFin = document.getElementById('btnFin');
+    var form = document.getElementById('formTest'), intro = document.getElementById('intro'), btnIni = document.getElementById('btnIniciar');
+    var actual = 0, enTest = false;
+    function respondida(p) { return !!p.querySelector('input:checked'); }
+    function mostrar(i) {
+        actual = i; aviso.hidden = true;
+        pasos.forEach(function (p, k) { p.hidden = k !== i; });
+        var ultimo = i === pasos.length - 1;
+        btnAtras.classList.toggle('d-none', i === 0);
+        btnSig.classList.toggle('d-none', ultimo);
+        btnFin.classList.toggle('d-none', !ultimo);
+        var hechas = pasos.filter(respondida).length;
+        barra.style.width = (100 * hechas / pasos.length) + '%';
+        barra.parentElement.setAttribute('aria-valuenow', hechas);
+    }
+    function iniciar() { enTest = true; intro.hidden = true; form.hidden = false; mostrar(0); }
+    if (pasos.length === 0) return;
+    form.hidden = true; btnIni.classList.remove('d-none');
+    btnIni.addEventListener('click', iniciar);
+    btnSig.addEventListener('click', function () { if (!respondida(pasos[actual])) { aviso.hidden = false; return; } mostrar(actual + 1); });
+    btnAtras.addEventListener('click', function () { mostrar(actual - 1); });
+    form.addEventListener('submit', function (e) {
+        var falta = pasos.findIndex(function (p) { return !respondida(p); });
+        if (falta !== -1) { e.preventDefault(); mostrar(falta); aviso.hidden = false; }
+    });
+    form.addEventListener('change', function () { aviso.hidden = true; mostrar(actual); });
+    if (document.querySelector('.alert-danger')) iniciar();
+})();
+</script>
+}

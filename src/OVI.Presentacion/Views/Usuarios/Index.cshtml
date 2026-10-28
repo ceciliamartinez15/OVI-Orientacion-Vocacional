@@ -1,0 +1,2 @@
+@model List<Usuario>
+<h1>Administración de usuarios</h1><table class="table"><thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Acción</th></tr></thead><tbody>@foreach(var x in Model){<tr><td>@x.Nombre @x.Apellido</td><td>@x.Correo</td><td>@x.Rol?.Nombre</td><td>@(x.Estado?"Activo":"Inactivo")</td><td><form method="post" asp-action="Estado" asp-route-id="@x.IdUsuario"><button class="btn btn-sm btn-outline-secondary">@(x.Estado?"Desactivar":"Activar")</button></form></td></tr>}</tbody></table>

@@ -1,0 +1,86 @@
+@{
+    ViewData["Title"] = "Asistente vocacional";
+    bool hayResultado = ViewBag.HayResultado ?? false;
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/chatbot.css" asp-append-version="true" />
+}
+
+<div class="chat-card">
+    <div class="chat-rail">
+        <div class="chat-rail-avatar">
+            <img src="~/img/robot-cara.png" alt="Saviox" />
+        </div>
+    </div>
+
+    <div class="chat-main">
+        <div class="chat-header">
+            <h2>Saviox: Tu asesor vocacional</h2>
+            @if (hayResultado)
+            {
+                <p class="chat-header-sub">Ya vi tus resultados. Pregúntame lo que quieras sobre tu perfil o tus carreras recomendadas.</p>
+            }
+            else
+            {
+                <p class="chat-header-sub">Todavía no tienes resultados del test.</p>
+            }
+        </div>
+
+        <div class="chat-mensajes" id="chat-mensajes" aria-live="polite">
+            @if (hayResultado)
+            {
+                <div class="chat-fila chat-fila-bot">
+                    <div class="chat-burbuja chat-burbuja-bot">
+                        <div class="chat-burbuja-texto">
+                            <p>¡Hola! Ya revisé tus resultados del test vocacional. Puedes preguntarme qué significan, por qué se te recomendaron esas carreras, o cómo es su campo laboral.</p>
+                        </div>
+                        <div class="chat-sugerencias-mensaje">
+                            <button type="button" class="chat-sugerencia-btn" data-chat-sugerencia="¿Qué significan mis resultados?">¿Qué significan mis resultados?</button>
+                            <button type="button" class="chat-sugerencia-btn" data-chat-sugerencia="¿Cuáles son mis mejores carreras?">Mis mejores carreras</button>
+                            <button type="button" class="chat-sugerencia-btn" data-chat-sugerencia="¿Cómo es el campo laboral de esas carreras?">Campo laboral</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="chat-fila chat-fila-bot">
+                    <div class="chat-burbuja chat-burbuja-bot">
+                        <div class="chat-burbuja-texto">
+                            <p>Aún no encuentro resultados de un test tuyo. Completa el test vocacional primero y luego vuelve aquí para conversar sobre tus resultados.</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <form id="chat-form" class="chat-formulario">
+            @Html.AntiForgeryToken()
+            <div class="chat-input-pill">
+                <span class="chat-plus">+</span>
+                <input type="text" id="chat-input" class="chat-input" maxlength="500"
+                       placeholder="@(hayResultado ? "Pregunta lo que quieras" : "Completa el test para habilitar el chat")"
+                       autocomplete="off" aria-label="Tu pregunta" />
+            </div>
+            <button type="submit" class="chat-enviar-btn" aria-label="Enviar">➤</button>
+        </form>
+
+        @if (!hayResultado)
+        {
+            <p class="chat-link-test"><a asp-controller="Test" asp-action="Index">Ir al test vocacional</a></p>
+        }
+        <p class="chat-aviso">Información orientativa; no sustituye a un orientador profesional. No compartas contraseñas ni datos sensibles.</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/chatbot.js" asp-append-version="true"></script>
+    <script>
+        initChatOvi({
+            formId: 'chat-form',
+            inputId: 'chat-input',
+            mensajesId: 'chat-mensajes',
+            endpointUrl: '@Url.Action("PreguntarIA", "Chatbot")'
+        });
+    </script>
+}

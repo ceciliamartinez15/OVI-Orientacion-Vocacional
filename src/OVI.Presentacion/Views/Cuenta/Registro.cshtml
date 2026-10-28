@@ -1,0 +1,40 @@
+@model OVI.Presentacion.Models.RegistroVM
+
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div class="auth">
+    <div>
+        <h1>Crea tu cuenta en <span>VocalO</span></h1>
+        <p class="mb-4">Una plataforma lista para ayudarte a elegir tu carrera profesional.</p>
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row g-3 mb-3">
+                <div class="col-sm-6">
+                    <label asp-for="Nombre" class="form-label"></label>
+                    <input asp-for="Nombre" class="form-control" required />
+                </div>
+                <div class="col-sm-6">
+                    <label asp-for="Apellido" class="form-label"></label>
+                    <input asp-for="Apellido" class="form-control" required />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Correo" class="form-label"></label>
+                <input asp-for="Correo" type="email" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Contrasena" class="form-label"></label>
+                <input asp-for="Contrasena" type="password" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ConfirmarContrasena" class="form-label"></label>
+                <input asp-for="ConfirmarContrasena" type="password" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Registrarme</button>
+            <p class="auth-alt mb-0">¿Ya tienes cuenta? <a asp-action="Login">Iniciar sesión</a></p>
+        </form>
+    </div>
+    <div class="auth-art" aria-hidden="true"><img src="~/img/robot-saludando.png" alt="" /></div>
+</div>

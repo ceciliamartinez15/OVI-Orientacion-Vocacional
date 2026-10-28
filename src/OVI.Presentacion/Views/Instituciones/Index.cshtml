@@ -1,0 +1,2 @@
+@model List<Institucion>
+<h1>Instituciones</h1><a asp-action="Crear" class="btn btn-primary mb-3">Agregar institución</a><table class="table"><thead><tr><th>Nombre</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>@foreach(var x in Model){<tr><td>@x.Nombre</td><td>@(x.Estado?"Activa":"Inactiva")</td><td><a asp-action="Editar" asp-route-id="@x.IdInstitucion">Editar</a> <form method="post" asp-action="Eliminar" asp-route-id="@x.IdInstitucion" class="d-inline"><button class="btn btn-sm btn-outline-danger">Desactivar</button></form></td></tr>}</tbody></table>

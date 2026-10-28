@@ -1,0 +1,257 @@
+/* Rediseño tipo tarjeta (inspirado en el mockup de Figma): riel lateral con avatar,
+   encabezado simple, mensajes de usuario en burbuja oscura y respuestas del bot como
+   tarjetas claras con soporte de **negritas** y viñetas, e input tipo pill + botón circular. */
+
+.chat-card {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 82vh;
+    min-height: 480px;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
+}
+
+.chat-rail {
+    width: 56px;
+    flex-shrink: 0;
+    background: #faf7f2;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 18px 0;
+    gap: 18px;
+}
+
+.chat-rail-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f0d9c0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    overflow: hidden;
+}
+
+.chat-rail-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.chat-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.chat-header h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f2430;
+}
+
+.chat-header-sub {
+    margin: 4px 0 0;
+    font-size: 0.82rem;
+    color: #7a7a7a;
+}
+
+.chat-mensajes {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #ffffff;
+}
+
+.chat-fila {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+.chat-fila-usuario {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.chat-fila-bot {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+.chat-burbuja {
+    padding: 12px 16px;
+}
+
+.chat-burbuja-usuario {
+    background: #ffffff;
+    border: 2px solid #A79277;
+    color: #4A423B;
+    border-radius: 16px 16px 4px 16px;
+}
+
+.chat-burbuja-bot {
+    background: #6B6056;
+    border: 1px solid #6B6056;
+    border-radius: 16px 16px 16px 4px;
+    color: #ffffff;
+}
+
+.chat-burbuja-texto {
+    font-size: 0.92rem;
+    line-height: 1.45;
+}
+
+.chat-burbuja-texto p {
+    margin: 0 0 8px;
+}
+
+.chat-burbuja-texto p:last-child {
+    margin-bottom: 0;
+}
+
+.chat-burbuja-texto strong {
+    color: inherit;
+}
+
+.chat-burbuja-bot .chat-burbuja-texto strong {
+    color: #FFF2E1;
+}
+
+.chat-burbuja-texto ul {
+    margin: 6px 0 8px;
+    padding-left: 18px;
+}
+
+.chat-burbuja-texto li {
+    margin-bottom: 6px;
+}
+
+.chat-hora {
+    font-size: 0.7rem;
+    color: #9a9a9a;
+    margin-top: 4px;
+}
+
+.chat-sugerencias-mensaje {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.chat-sugerencia-btn {
+    background: #ffffff;
+    border: 1px solid #A79277;
+    color: #4A423B;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.chat-sugerencia-btn:hover {
+    background: #F0DCBD;
+}
+
+.chat-escribiendo .chat-burbuja-texto {
+    font-style: italic;
+    opacity: 0.7;
+    margin: 0;
+}
+
+.chat-formulario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid #eee;
+}
+
+.chat-input-pill {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f4f4f6;
+    border-radius: 24px;
+    padding: 10px 16px;
+}
+
+.chat-plus {
+    color: #9a9a9a;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.chat-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.chat-enviar-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #6B6056;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.chat-enviar-btn:hover {
+    background: #4A423B;
+}
+
+@media (max-width: 540px) {
+    .chat-card {
+        margin: 0;
+        border-radius: 0;
+        height: 100vh;
+    }
+
+    .chat-rail {
+        width: 44px;
+    }
+}
+
+.chat-aviso {
+    font-size: 0.78rem;
+    text-align: center;
+    padding: 0 18px 12px;
+    margin: 0;
+    color: #7d7064;
+}
+
+.chat-link-test {
+    text-align: center;
+    padding: 0 0 14px;
+    margin: 0;
+}

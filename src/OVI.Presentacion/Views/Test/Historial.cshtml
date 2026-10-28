@@ -1,0 +1,3 @@
+@model List<Resultado>
+@{ViewData["Title"]="Mi historial";}
+<h1>Mis resultados</h1><table class="table"><thead><tr><th>Fecha</th><th>Perfil</th><th>Acción</th></tr></thead><tbody>@foreach(var r in Model){<tr><td>@r.FechaResultado.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td><td>@r.PerfilDominante</td><td><a asp-action="Resultado" asp-route-id="@r.IdResultado">Ver resultado</a></td></tr>}</tbody></table>

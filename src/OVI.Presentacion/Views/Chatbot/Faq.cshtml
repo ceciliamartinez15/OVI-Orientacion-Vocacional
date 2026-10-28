@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Preguntas frecuentes";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/chatbot.css" asp-append-version="true" />
+}
+
+<div class="chat-card">
+    <div class="chat-rail">
+        <div class="chat-rail-avatar">
+            <img src="~/img/robot-cara.png" alt="Asistente VocalO" />
+        </div>
+    </div>
+
+    <div class="chat-main">
+        <div class="chat-header">
+            <h2>Preguntas frecuentes</h2>
+            <p class="chat-header-sub">Para dudas sobre tus resultados, usa el chat con IA después de completar el test.</p>
+        </div>
+
+        <div class="chat-mensajes" id="chat-mensajes" aria-live="polite">
+            <div class="chat-fila chat-fila-bot">
+                <div class="chat-burbuja chat-burbuja-bot">
+                    <div class="chat-burbuja-texto">
+                        <p>¡Hola! Soy el asistente de preguntas frecuentes de VocalO. ¿En qué te puedo ayudar?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form id="chat-form" class="chat-formulario">
+            @Html.AntiForgeryToken()
+            <div class="chat-input-pill">
+                <span class="chat-plus">+</span>
+                <input type="text" id="chat-input" class="chat-input" maxlength="500" placeholder="Pregunta lo que quieras" autocomplete="off" aria-label="Tu pregunta" />
+            </div>
+            <button type="submit" class="chat-enviar-btn" aria-label="Enviar">➤</button>
+        </form>
+        <p class="chat-aviso">Información orientativa; no sustituye a un orientador profesional. No compartas contraseñas ni datos sensibles.</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/chatbot.js" asp-append-version="true"></script>
+    <script>
+        initChatOvi({
+            formId: 'chat-form',
+            inputId: 'chat-input',
+            mensajesId: 'chat-mensajes',
+            endpointUrl: '@Url.Action("PreguntarFaq", "Chatbot")'
+        });
+    </script>
+}
