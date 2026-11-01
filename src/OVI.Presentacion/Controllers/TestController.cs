@@ -5,7 +5,7 @@ using OVI.Datos;
 using OVI.Logica.Servicios;
 using OVI.Presentacion.Servicios;
 namespace OVI.Presentacion.Controllers;
-[Authorize(Roles="Estudiante,Admin")]
+[Authorize(Roles="Estudiante")]
 public class TestController(OVIDbContext db,ServicioVocacional servicio):Controller
 {
  [HttpGet] public async Task<IActionResult> Index()=>View(await db.PreguntasRIASEC.Where(p=>p.Estado).OrderBy(p=>p.IdPregunta).ToListAsync());
@@ -17,7 +17,7 @@ public class TestController(OVIDbContext db,ServicioVocacional servicio):Control
  public async Task<IActionResult> Resultado(int id)
  {
   var r=await db.Resultados.Include(x=>x.Evaluacion).Include(x=>x.Recomendaciones).ThenInclude(x=>x.Carrera).FirstOrDefaultAsync(x=>x.IdResultado==id);
-  if(r==null)return NotFound();if(r.Evaluacion?.IdUsuario!=UsuarioActual.Id(User)&&!User.IsInRole("Admin"))return Forbid();return View(r);
+  if(r==null)return NotFound();if(r.Evaluacion?.IdUsuario!=UsuarioActual.Id(User))return Forbid();return View(r);
  }
  public async Task<IActionResult> Historial()
  {

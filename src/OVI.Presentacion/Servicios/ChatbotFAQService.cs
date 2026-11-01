@@ -10,7 +10,7 @@ public interface IChatbotFAQService
 {
     Task<string> ObtenerRespuestaAsync(string mensajeUsuario, CancellationToken cancellationToken = default);
 
-    /// <summary>Preguntas frecuentes listas para mostrarse como opciones (pregunta + respuesta).</summary>
+    // Preguntas frecuentes listas para mostrarse como opciones (pregunta + respuesta).
     Task<IReadOnlyList<FaqOpcion>> ObtenerOpcionesAsync(CancellationToken cancellationToken = default);
 }
 
@@ -33,7 +33,7 @@ public class ChatbotFAQService : IChatbotFAQService
         "algo","nosotros","tengo","tiene","hola","quiero","saber","porque"
     };
 
-    // Etiqueta: texto legible para mostrar como opción (Pregunta es una cadena de palabras clave para el buscador).
+    //  Texto legible para mostrar como opción (Pregunta es una cadena de palabras clave para el buscador).
     private sealed record FaqItem(string Pregunta, string Respuesta, string? Etiqueta = null);
 
     private static readonly List<FaqItem> FaqsBase = new()

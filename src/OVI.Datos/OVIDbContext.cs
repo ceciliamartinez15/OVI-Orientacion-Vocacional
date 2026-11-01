@@ -31,7 +31,7 @@ public class OVIDbContext(DbContextOptions<OVIDbContext> options) : DbContext(op
   b.Entity<Recomendacion>().HasOne(x=>x.Resultado).WithMany(x=>x.Recomendaciones).HasForeignKey(x=>x.IdResultado).OnDelete(DeleteBehavior.Cascade);
   b.Entity<Recomendacion>().HasOne(x=>x.Carrera).WithMany(x=>x.Recomendaciones).HasForeignKey(x=>x.IdCarrera).OnDelete(DeleteBehavior.Restrict);
   b.Entity<Recomendacion>().Property(x=>x.NivelAfinidad).HasPrecision(5,2);
-  b.Entity<Rol>().HasData(new Rol{IdRol=1,Nombre="Estudiante",Descripcion="Realiza el test vocacional"},new Rol{IdRol=2,Nombre="Orientador",Descripcion="Consulta estadísticas"},new Rol{IdRol=3,Nombre="Admin",Descripcion="Administra catálogos"});
+  b.Entity<Rol>().HasData(new Rol{IdRol=1,Nombre="Estudiante",Descripcion="Realiza el test vocacional"},new Rol{IdRol=3,Nombre="Admin",Descripcion="Administra catálogos"});
   b.Entity<Institucion>().HasData(new Institucion{IdInstitucion=1,Nombre="Institución no especificada",Estado=true});
   b.Entity<Usuario>().HasData(new Usuario{IdUsuario=1,IdRol=1,IdInstitucion=1,Nombre="Estudiante",Apellido="Demo",Correo="demo@ovi.local",PasswordHash=null,Estado=true});
   b.Entity<PreguntaRIASEC>().HasData(

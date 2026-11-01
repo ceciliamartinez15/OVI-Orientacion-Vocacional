@@ -11,7 +11,7 @@ public class HomeController(OVIDbContext db) : Controller
     {
         if (User.Identity?.IsAuthenticated == true)
         {
-            if (User.IsInRole("Admin") || User.IsInRole("Orientador"))
+            if (User.IsInRole("Admin"))
             {
                 ViewBag.Estudiantes = await db.Usuarios.CountAsync(u => u.Estado && u.Rol != null && u.Rol.Nombre == "Estudiante");
                 ViewBag.Evaluaciones = await db.Evaluaciones.CountAsync(e => e.Estado == "Finalizada");

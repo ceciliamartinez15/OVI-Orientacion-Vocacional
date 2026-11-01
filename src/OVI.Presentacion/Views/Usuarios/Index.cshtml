@@ -1,2 +1,33 @@
+@using OVI.Presentacion.Servicios
 @model List<Usuario>
-<h1>Administración de usuarios</h1><table class="table"><thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Acción</th></tr></thead><tbody>@foreach(var x in Model){<tr><td>@x.Nombre @x.Apellido</td><td>@x.Correo</td><td>@x.Rol?.Nombre</td><td>@(x.Estado?"Activo":"Inactivo")</td><td><form method="post" asp-action="Estado" asp-route-id="@x.IdUsuario"><button class="btn btn-sm btn-outline-secondary">@(x.Estado?"Desactivar":"Activar")</button></form></td></tr>}</tbody></table>
+@{ ViewData["Title"] = "Usuarios"; var yo = UsuarioActual.Id(User); }
+<h1>Administración de usuarios</h1>
+<a class="btn btn-primary mb-3" asp-action="Crear">Agregar usuario</a>
+<div class="table-responsive">
+<table class="table table-striped align-middle">
+    <thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Institución</th><th>Estado</th><th>Acciones</th></tr></thead>
+    <tbody>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.Nombre @x.Apellido</td>
+            <td>@x.Correo</td>
+            <td>@x.Rol?.Nombre</td>
+            <td>@x.Institucion?.Nombre</td>
+            <td>@(x.Estado ? "Activo" : "Inactivo")</td>
+            <td>
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-sm btn-outline-primary" asp-action="Editar" asp-route-id="@x.IdUsuario">Editar</a>
+                    @if (x.IdUsuario != yo)
+                    {
+                        <form method="post" asp-action="Estado" asp-route-id="@x.IdUsuario" class="d-inline">
+                            <button class="btn btn-sm @(x.Estado ? "btn-outline-danger" : "btn-outline-success")">@(x.Estado ? "Desactivar" : "Activar")</button>
+                        </form>
+                    }
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+</div>

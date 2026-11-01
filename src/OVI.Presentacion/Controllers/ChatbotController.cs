@@ -18,18 +18,19 @@ public class ChatbotController(IChatbotFAQService faqService, IChatbotIAService 
 
     [AllowAnonymous]
     [HttpGet]
-    public IActionResult Faq() => View();
+    public IActionResult Faq() => User.IsInRole("Admin") ? Forbid() : View();
 
     // Alimenta la burbuja flotante de Saviox (presente en todas las pantallas, también sin sesión).
     [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> FaqOpciones(CancellationToken cancellationToken)
-        => Json(await faqService.ObtenerOpcionesAsync(cancellationToken));
+        => User.IsInRole("Admin") ? Forbid() : Json(await faqService.ObtenerOpcionesAsync(cancellationToken));
 
     [AllowAnonymous]
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> PreguntarFaq(string mensaje, CancellationToken cancellationToken)
     {
+        if (User.IsInRole("Admin")) return Forbid();
         if (string.IsNullOrWhiteSpace(mensaje) || mensaje.Length > MaxLongitudMensaje)
         {
             return Json(new { respuesta = MensajeInvalido });
@@ -39,6 +40,7 @@ public class ChatbotController(IChatbotFAQService faqService, IChatbotIAService 
         return Json(new { respuesta });
     }
 
+    [Authorize(Roles = "Estudiante")]
     [HttpGet]
     public async Task<IActionResult> Contextual(CancellationToken cancellationToken)
     {
@@ -50,6 +52,7 @@ public class ChatbotController(IChatbotFAQService faqService, IChatbotIAService 
         return View();
     }
 
+    [Authorize(Roles = "Estudiante")]
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> PreguntarIA(string mensaje, CancellationToken cancellationToken)
     {

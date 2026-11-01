@@ -1,0 +1,62 @@
+@using OVI.Presentacion.Models
+@using OVI.Presentacion.Servicios
+@model UsuarioFormVM
+@{
+    var nuevo = Model.IdUsuario == 0;
+    var esYo = !nuevo && Model.IdUsuario == UsuarioActual.Id(User);
+    ViewData["Title"] = nuevo ? "Crear usuario" : "Editar usuario";
+}
+<h1>@(nuevo ? "Crear" : "Editar") usuario</h1>
+<form method="post" class="col-lg-7" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="IdUsuario" type="hidden" />
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" maxlength="100" required />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Apellido" class="form-label"></label>
+            <input asp-for="Apellido" class="form-control" maxlength="100" required />
+            <span asp-validation-for="Apellido" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Correo" class="form-label"></label>
+        <input asp-for="Correo" type="email" class="form-control" maxlength="150" required />
+        <span asp-validation-for="Correo" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="IdRol" class="form-label"></label>
+            <select asp-for="IdRol" asp-items="Model.Roles" class="form-select" disabled="@esYo"></select>
+            @if (esYo) { <input type="hidden" asp-for="IdRol" /> }
+            <span asp-validation-for="IdRol" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="IdInstitucion" class="form-label"></label>
+            <select asp-for="IdInstitucion" asp-items="Model.Instituciones" class="form-select"></select>
+            <span asp-validation-for="IdInstitucion" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Contrasena" class="form-label">@(nuevo ? "Contraseña" : "Nueva contraseña (opcional)")</label>
+        <input asp-for="Contrasena" type="password" class="form-control" autocomplete="new-password" required="@nuevo" />
+        <div class="form-text">@(nuevo ? "Mínimo 8 caracteres." : "Déjala en blanco para conservar la actual. Mínimo 8 caracteres si la cambias.")</div>
+        <span asp-validation-for="Contrasena" class="text-danger"></span>
+    </div>
+    @if (!esYo)
+    {
+        <div class="form-check mb-3">
+            <input asp-for="Estado" class="form-check-input" />
+            <label asp-for="Estado" class="form-check-label">Activo</label>
+        </div>
+    }
+    else
+    {
+        <input type="hidden" name="Estado" value="true" />
+    }
+    <button class="btn btn-primary">Guardar</button>
+    <a class="btn btn-outline-secondary ms-2" asp-action="Index">Cancelar</a>
+</form>

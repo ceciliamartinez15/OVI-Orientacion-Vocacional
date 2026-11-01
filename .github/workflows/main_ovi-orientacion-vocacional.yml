@@ -18,10 +18,10 @@ jobs:
       - name: Descargar codigo
         uses: actions/checkout@v4
 
-      - name: Configurar .NET 9
+      - name: Configurar .NET 8
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '8.x'
 
       - name: Restaurar dependencias
         run: dotnet restore src/OVI.Presentacion/OVI.Presentacion.csproj

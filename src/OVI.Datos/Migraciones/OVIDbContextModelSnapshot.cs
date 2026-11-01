@@ -30,6 +30,10 @@ namespace OVI.Datos.Migraciones
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCarrera"));
 
+                    b.Property<string>("AreasRIASEC")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Descripcion")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -514,12 +518,6 @@ namespace OVI.Datos.Migraciones
                             IdRol = 1,
                             Descripcion = "Realiza el test vocacional",
                             Nombre = "Estudiante"
-                        },
-                        new
-                        {
-                            IdRol = 2,
-                            Descripcion = "Consulta estadísticas",
-                            Nombre = "Orientador"
                         },
                         new
                         {

@@ -1,0 +1,29 @@
+@model List<Carrera>
+@{ ViewData["Title"] = "Carreras"; }
+<h1>Carreras</h1>
+<a class="btn btn-primary mb-3" asp-action="Crear">Agregar carrera</a>
+<div class="table-responsive">
+<table class="table table-striped align-middle">
+    <thead><tr><th>Nombre</th><th>Tipo</th><th>Institución</th><th>Áreas RIASEC</th><th>Estado</th><th>Acciones</th></tr></thead>
+    <tbody>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.Nombre</td>
+            <td>@x.Tipo</td>
+            <td>@(string.IsNullOrWhiteSpace(x.Institucion) ? "—" : x.Institucion)</td>
+            <td>@(string.IsNullOrWhiteSpace(x.AreasRIASEC) ? "Regla por defecto" : x.AreasRIASEC.Replace(",", ", "))</td>
+            <td>@(x.Estado ? "Activa" : "Inactiva")</td>
+            <td>
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-sm btn-outline-primary" asp-action="Editar" asp-route-id="@x.IdCarrera">Editar</a>
+                    <form asp-action="Estado" asp-route-id="@x.IdCarrera" method="post" class="d-inline">
+                        <button class="btn btn-sm @(x.Estado ? "btn-outline-danger" : "btn-outline-success")">@(x.Estado ? "Desactivar" : "Activar")</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+</div>
