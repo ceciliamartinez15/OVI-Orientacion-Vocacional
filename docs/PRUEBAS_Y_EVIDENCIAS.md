@@ -41,8 +41,8 @@ Cubre lo que exige la guía de la Fase II: funcionamiento del sistema, ejecució
 
 | ID | Caso | Resultado esperado | Resultado observado | Evidencia | Estado |
 |---|---|---|---|---|---|
-| P20 | `docker compose up --build -d` y `docker compose ps` | `web` y `db` en marcha (`db` healthy); web en 8080 | Contenedores en ejecución (21/10) | ![P20](evidencias/p20_docker_ps.png) | Re-ejecutar |
-| P21 | Persistencia: `docker compose restart` y consultar | Los datos permanecen (volumen `ovi_sql_data`) | Datos conservados (21/10) | ![P21](evidencias/p21_docker_persistencia.png) | Re-ejecutar |
+| P20 | `docker compose up --build -d` y `docker compose ps` | `web` y `db` en marcha (`db` healthy); web en 8080 | Contenedores en ejecución | ![P20](evidencias/p20_docker_ps.png) | Aprobado |
+| P21 | Persistencia: `docker compose restart` y consultar | Los datos permanecen (volumen `ovi_sql_data`) | Datos conservados | ![P21](evidencias/p21_docker_persistencia.png) | Aprobado |
 
 ## Resumen de resultados
 
@@ -50,5 +50,5 @@ Cubre lo que exige la guía de la Fase II: funcionamiento del sistema, ejecució
 |---|---|---|---|
 | A. Casos de uso | 15 | 15 | 0 |
 | B. IA | 4 | 4 | 0 |
-| C. Docker | 2 | 0 | 2 |
-| **Total** | **21** | **19** | **2** |
+| C. Docker | 2 | 2 | 0 |
+| **Total** | **21** | **21** | **0** |
